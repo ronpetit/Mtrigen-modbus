@@ -71,9 +71,8 @@ while 1==1:
      time.sleep(5)
      register = registersPerPage * RPMPageNumber + RPMRegisterOffset
      registers = sync_client_read(register)
-     print("Engine RPM " + str(registers))
-     register = registersPerPage * DCCurrentPageNumber + DCCurrentStartOffset
-     registers = sync_client_read(register)
-     print("Battery bank DC current 1 " + str(registers))
+     print("Engine RPM ",registers," RPM")
      register = registersPerPage * DCCurrentPageNumber + DCCurrentEndOffset
-     print("Battery bank DC current 2 " + str(registers))
+     registers = sync_client_read(register)
+     registers = float(registers[0])
+     print("DC load current ",registers * 0.1, " A")
