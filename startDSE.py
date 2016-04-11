@@ -34,8 +34,17 @@ client = ModbusClient(str(host), port=502)
 client.connect()
 
 rm = client.write_registers(4104, [MANUAL, MANUALC])
-time.sleep(5)
+if assert(rm.registers == [MANUAL, MANUALC]):
+    print "Change DSE to MANUAL mode"
+    time.sleep(5)
+else:
+    print "Error: cannot change the DSE to MANUAL mode"
+    
 rq = client.write_registers(4104, [START,STARTC])
 rr = client.read_input_registers(4104,2)
 assert(rq.function_code < 0x80)     # test that we are not an error
-assert(rr.registers == [START,STARTC])      # test the expected value
+if assert(rr.registers == [START,STARTC]): # test the expected value
+    print "Starting engine"
+else:
+    print "Error: Engine does not start up. DSE in STOP mode?"
+    
