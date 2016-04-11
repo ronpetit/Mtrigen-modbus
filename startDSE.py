@@ -33,7 +33,8 @@ print(host)
 client = ModbusClient(str(host), port=502)
 client.connect()
 
-rm = client.write_registers(4104, [MANUAL, MANUALC])
+rm = client.write_registers(4104, MANUAL)
+rm2 = client.write_registers(4105, MANUALC)
 print("Change DSE to MANUAL mode, starting engine in 5 seconds...")
 time.sleep(1)
 print("4")
@@ -44,14 +45,17 @@ print("2")
 time.sleep(1)
 print("1...")
 time.sleep(1)
-rq = client.write_registers(4104, [START,STARTC])
-rr = client.read_input_registers(4104, [START,STARTC])
+rq = client.write_registers(4104, START)
+rq2 = client.write_registers(4105, STARTC)
+rr = client.read_input_registers(4104, 1)
 time.sleep(3)
-if rr == [START,STARTC]: # test the expected value
+if rr == START: # test the expected value
     print("Starting engine")
 else:
     print("Error: Engine does not start up (maybe is locket out). Changing DSE to STOP mode")
-    client.write_registers(4104, [STOP, STOPC])
+    print(rr)
+    client.write_registers(4104, STOP)
+    client.write_registers(4105, STOPC)
 
 assert(rq.function_code < 0x80)     # test that we are not an error
 
