@@ -39,7 +39,7 @@ time.sleep(5)
 rq = client.write_registers(4104, [START,STARTC])
 rr = client.read_input_registers(4104,2)
 assert(rq.function_code < 0x80)     # test that we are not an error
-if (rr.register == [START,STARTC]): # test the expected value
+if (rr == [START,STARTC]): # test the expected value
     print("Starting engine")
 else:
     print("Error: Engine does not start up. DSE in STOP mode or engine locked out")
