@@ -36,11 +36,11 @@ client.connect()
 rm = client.write_registers(4104, [MANUAL, MANUALC])
 print("Change DSE to MANUAL mode, starting engine in 5 seconds...")
 time.sleep(5)
-if (rq = client.write_registers(4104, [START,STARTC])): # test the expected value
+rq = client.write_registers(4104, [START,STARTC])
+if (rr = client.read_input_registers(4104,2)): # test the expected value
     print("Starting engine")
 else:
     print("Error: Engine does not start up. DSE in STOP mode or engine locked out")
 
-rr = client.read_input_registers(4104,2)
 assert(rq.function_code < 0x80)     # test that we are not an error
 
