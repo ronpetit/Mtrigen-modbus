@@ -45,17 +45,15 @@ print("2")
 time.sleep(1)
 print("1...")
 time.sleep(1)
-rq = client.write_registers(4104, START)
-rq2 = client.write_registers(4105, STARTC)
-rr = client.read_input_registers(4104, 1)
+rq = client.write_registers(4104, [START,STARTC])
+rr = client.read_input_registers(4104, 5)
 time.sleep(3)
 if rr == START: # test the expected value
     print("Starting engine")
 else:
     print("Error: Engine does not start up (maybe is locket out). Changing DSE to STOP mode")
     print("%s" % rr)
-    client.write_registers(4104, STOP)
-    client.write_registers(4105, STOPC)
+    client.write_registers(4104, [STOP,STOPC])
 
 assert(rq.function_code < 0x80)     # test that we are not an error
 
