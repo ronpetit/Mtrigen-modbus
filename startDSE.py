@@ -41,7 +41,8 @@ rr = [START, STARTC]
 if (rr == client.read_input_registers(4104,2)): # test the expected value
     print("Starting engine")
 else:
-    print("Error: Engine does not start up. DSE in STOP mode or engine locked out")
+    print("Error: Engine does not start up (maybe is locket out). Changing DSE to STOP mode")
+    client.write_registers(4104, [STOP, STOPC])
 
 assert(rq.function_code < 0x80)     # test that we are not an error
 
