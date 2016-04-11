@@ -2,8 +2,6 @@ import sys
 import time
 from pymodbus3.client.sync import ModbusTcpClient as ModbusClient
 
-ALARM    =  42496;
-ALARMC   =  42497;
 STOP     =  35700;    # 10001011(H8B,D139) 01110100(H74,116)  # -29836 (35700)
 STOPC    =  29835;    # 01110100(H74,D116) 10001011(H8B,D139) #  29835
 AUTO     =  35701;    # 10001011(H8B,D139) 01110101(H75,D117) # -29835 (35701)
@@ -54,7 +52,6 @@ if (rr == client.read_input_registers(4104,2)): # test the expected value
 else:
     print("Error: Engine does not start up (maybe is locket out). Changing DSE to STOP mode")
     client.write_registers(4104, [STOP, STOPC])
-    client.write_registers(4104, [ALARM, ALARMC])
 
 assert(rq.function_code < 0x80)     # test that we are not an error
 
