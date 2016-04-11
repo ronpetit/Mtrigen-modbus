@@ -46,6 +46,7 @@ print("1...")
 time.sleep(1)
 rq = client.write_registers(4104, [START,STARTC])
 rr = [START, STARTC]
+time.sleep(3)
 if (rr == client.read_input_registers(4104,2)): # test the expected value
     print("Starting engine")
 else:
