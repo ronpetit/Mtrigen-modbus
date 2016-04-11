@@ -1,4 +1,5 @@
 import sys
+import time
 from pymodbus3.client.sync import ModbusTcpClient as ModbusClient
 
 STOP     =  35700;    # 10001011(H8B,D139) 01110100(H74,116)  # -29836 (35700)
