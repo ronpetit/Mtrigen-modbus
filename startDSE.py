@@ -32,6 +32,7 @@ host= sys.argv[1]
 print(host)
 client = ModbusClient(str(host), port=502)
 client.connect()
+time.sleep(0.1)
 
 rm = client.write_registers(4104, MANUAL)
 rm2 = client.write_registers(4105, MANUALC)
