@@ -53,7 +53,7 @@ if rr == START: # test the expected value
     print("Starting engine")
 else:
     print("Error: Engine does not start up (maybe is locket out). Changing DSE to STOP mode")
-    print("%s", % rr)
+    print("%s" % rr)
     client.write_registers(4104, STOP)
     client.write_registers(4105, STOPC)
 
