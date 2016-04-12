@@ -2,6 +2,19 @@ import sys
 import time
 from pymodbus3.client.sync import ModbusTcpClient as ModbusClient
 
+def sync_client_read(registerNumber):
+    try:
+        result = client.read_holding_registers(registerNumber,1)
+        return result.registers
+        except:
+            print("Connection Error Handled")
+            output = false
+            return output
+            
+registersPerPage = 256
+RPMPageNumber = 4
+RPMRegisterOffset = 6
+
 STOP     =  35700;    # 10001011(H8B,D139) 01110100(H74,116)  # -29836 (35700)
 STOPC    =  29835;    # 01110100(H74,D116) 10001011(H8B,D139) #  29835
 AUTO     =  35701;    # 10001011(H8B,D139) 01110101(H75,D117) # -29835 (35701)
@@ -46,13 +59,15 @@ time.sleep(1)
 print("1...")
 time.sleep(1)
 rq = client.write_registers(4104, [START,STARTC])
-rr = client.read_input_registers(4104, 5)
 time.sleep(3)
-if rr == START: # test the expected value
-    print("Starting engine")
-else:
-    print("Error: Engine does not start up (maybe is locket out). Changing DSE to STOP mode")
-    client.write_registers(4104, [STOP,STOPC])
+print("Starting engine, proceding to read RPM")
+time.sleep(1)
+while 1==1:
+    time.sleep(5)
+    for register in range(registersPerPage * RPMPageNumber + RPMRegisterOffset):
+        registers = sync_client_read(register)
+        print("register" + str(register))
+        print("msg sent: register value" + str(registers))
 
 assert(rq.function_code < 0x80)     # test that we are not an error
 
