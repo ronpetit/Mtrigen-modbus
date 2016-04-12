@@ -19,6 +19,9 @@ def sync_client_read(registerNumber):
 registersPerPage = 256
 RPMPageNumber = 4
 RPMRegisterOffset = 6
+DCCurrentPageNumber = 4
+DCCurrentStartOffset = 206
+DCCurrentEndOffset = 207
 
 STOP     =  35700;    # 10001011(H8B,D139) 01110100(H74,116)  # -29836 (35700)
 STOPC    =  29835;    # 01110100(H74,D116) 10001011(H8B,D139) #  29835
@@ -69,10 +72,10 @@ print("Starting engine, proceding to read RPM")
 time.sleep(1)
 while 1==1:
      time.sleep(5)
-     register= registersPerPage * RPMPageNumber + RPMRegisterOffset
+     register = registersPerPage * RPMPageNumber + RPMRegisterOffset
      registers = sync_client_read(register)
-     print("register" + str(register))
-     print("msg sent: register value" + str(registers))
-
-assert(rq.function_code < 0x80)     # test that we are not an error
+     print("Engine RPM " + str(registers))
+     for register in range(registersPerPage * DCCurrentPageNumber + DCCurrentStartOffset,registersPerPage * DCCurrentPageNumber + DCCurrentEndOffset):
+          registers = sync_client_read(register)
+          print("Battery bank DC current " + str(registers))
 
