@@ -57,15 +57,12 @@ time.sleep(0.1)
 
 rm = client.write_registers(4104, [MANUAL,MANUALC])
 print("Change DSE to MANUAL mode, starting engine in 5 seconds...")
-time.sleep(1)
-print("4")
-time.sleep(1)
-print("3")
-time.sleep(1)
-print("2")
-time.sleep(1)
-print("1...")
-time.sleep(1)
+x = 4
+while x>=1:
+     time.sleep(1)
+     print(str(x))
+     x-=1
+
 rq = client.write_registers(4104, [START,STARTC])
 time.sleep(3)
 print("Starting engine, proceding to read RPM and DC current")
