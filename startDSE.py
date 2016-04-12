@@ -6,6 +6,7 @@ def sync_client_read(registerNumber):
     try:
         result = client.read_holding_registers(registerNumber,1)
         return result.registers
+        
         except:
             print("Connection Error Handled")
             output = false
