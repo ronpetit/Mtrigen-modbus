@@ -69,7 +69,7 @@ print("Starting engine, proceding to read RPM")
 time.sleep(1)
 while 1==1:
     time.sleep(5)
-    for register in range(registersPerPage * RPMPageNumber + RPMRegisterOffset):
+    for register in range(registersPerPage * RPMPageNumber + RPMRegisterOffset,registersPerPage * RPMPageNumber + RPMRegisterOffset):
         registers = sync_client_read(register)
         print("register" + str(register))
         print("msg sent: register value" + str(registers))
