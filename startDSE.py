@@ -1,12 +1,14 @@
 import sys
 import time
+from random import uniform
+from pymodbus3 import exceptions
 from pymodbus3.client.sync import ModbusTcpClient as ModbusClient
+import json
 
 def sync_client_read(registerNumber):
     try:
         result = client.read_holding_registers(registerNumber,1)
         return result.registers
-        
         except:
             print("Connection Error Handled")
             output = false
