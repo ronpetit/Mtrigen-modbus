@@ -20,8 +20,8 @@ registersPerPage = 256
 RPMPageNumber = 4
 RPMRegisterOffset = 6
 DCCurrentPageNumber = 4
-DCCurrentStartOffset = 206
-DCCurrentEndOffset = 207
+DCCurrentStartOffset = 204
+DCCurrentEndOffset = 205
 
 STOP     =  35700;    # 10001011(H8B,D139) 01110100(H74,116)  # -29836 (35700)
 STOPC    =  29835;    # 01110100(H74,D116) 10001011(H8B,D139) #  29835
