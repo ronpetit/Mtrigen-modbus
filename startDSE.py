@@ -68,7 +68,7 @@ print("1...")
 time.sleep(1)
 rq = client.write_registers(4104, [START,STARTC])
 time.sleep(3)
-print("Starting engine, proceding to read RPM")
+print("Starting engine, proceding to read RPM and DC current")
 time.sleep(1)
 while 1==1:
      time.sleep(5)
