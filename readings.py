@@ -3,5 +3,5 @@ import time
 
 while 1==1:
 	time.sleep(2)
-	print("Engine speed ", DSE.main().RPMRegister, " RPM")
-	print("DC load current ", DSE.main().DCRegister, " A")
+	print("Engine speed ", DSE.RPMRegister, " RPM")
+	print("DC load current ", DSE.DCRegister, " A")

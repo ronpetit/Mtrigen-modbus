@@ -80,8 +80,6 @@ def main():
 		DCRegister = sync_client_read(register)
 		DCRegister = float(DCRegister)
 		x = 0
-		import readings
-		readings.RPMRegister
 		os.system('sudo python3 readings.py')
 
 	while 1==1:
