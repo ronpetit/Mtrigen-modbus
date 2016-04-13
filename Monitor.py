@@ -5,7 +5,7 @@ import ReadAndWriteRegisters as IO
 RPMPageNumber = 4
 RPMRegisterOffset = 6
 DCCurrentPageNumber = 4
-DCCurrentRegisterOffset = 205
+DCCurrentRegisterOffset = 201
 
 print("Starting the RPM and current monitor")
 time.sleep(2)

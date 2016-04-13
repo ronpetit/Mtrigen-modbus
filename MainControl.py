@@ -8,7 +8,7 @@ import os
 RPMPageNumber = 4
 RPMRegisterOffset = 6
 DCCurrentPageNumber = 4
-DCCurrentRegisterOffset = 205
+DCCurrentRegisterOffset = 201
 STOP = 35700 #This are control keys
 STOPC = 29835 #This are complements of control keys, must be write together with the control key
 AUTO = 35701
@@ -64,16 +64,16 @@ def main():
 		write_register(START,STARTC)
 		time.sleep(3)
 		string = ("sudo xterm -hold -e sudo python3 Monitor.py " + host + " &")
-		print("Waiting for the engine to reach minimum speed")
-		time.sleep(30)
+		print("Reading the actual load")
+		time.sleep(2)
 		print("Governor speed control ON")
 		PWM = GPIO.PWM(11, 100)
 		Current = read_register(DCCurrentPageNumber, DCCurrentRegisterOffset, 0.1)
-		X = ((40 - Current)/67) * 100
+		X = ((Current)/140) * 100
 		PWM.start(X)
 		while 1==1:
 			Current = read_register(DCCurrentPageNumber, DCCurrentRegisterOffset, 0.1)
-			X = ((40 - Current)/67) * 100
+			X = ((Current)/140) * 100
 			PWM.ChangeDutyCycle(X)
 
 	except (KeyboardInterrupt, SystemExit):
