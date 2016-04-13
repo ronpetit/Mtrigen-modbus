@@ -1,6 +1,7 @@
 import sys
 import time
 from pymodbus3.client.sync import ModbusTcpClient as ModbusClient
+from subprocess import Popen, CREATE_NEW_CONSOLE
 
 def sync_client_read(registerNumber):
      try:
@@ -67,12 +68,10 @@ rq = client.write_registers(4104, [START,STARTC])
 time.sleep(3)
 print("Starting engine, proceding to read RPM and DC current")
 time.sleep(1)
+Popen([sys.executable, 'readings.py'], creationflags=CREATE_NEW_CONSOLE)
 while 1==1:
-     time.sleep(2)
      register = registersPerPage * RPMPageNumber + RPMRegisterOffset
-     registers = sync_client_read(register)
-     print("Engine RPM ",registers," RPM")
+     RPMResgister = sync_client_read(register)
      register = registersPerPage * DCCurrentPageNumber + DCCurrentEndOffset
-     registers = sync_client_read(register)
-     registers = float(registers[0])
-     print("DC load current ",registers * 0.1, " A")
+     DCRegister = sync_client_read(register)
+     DCRegister = float(registers[0])
