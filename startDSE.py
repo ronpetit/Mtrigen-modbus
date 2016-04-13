@@ -68,7 +68,7 @@ time.sleep(3)
 print("Starting engine, proceding to read RPM and DC current")
 time.sleep(1)
 while 1==1:
-     time.sleep(5)
+     time.sleep(2)
      register = registersPerPage * RPMPageNumber + RPMRegisterOffset
      registers = sync_client_read(register)
      print("Engine RPM ",registers," RPM")
