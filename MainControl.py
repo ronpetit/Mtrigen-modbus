@@ -27,12 +27,31 @@ client = ModbusClient(str(host), port = 502)
 client.connect()
 time.sleep(0.1)
 
+def sync_client_read(registerNumber):
+	try:
+		result = client.read_holding_registers(registerNumber,1)
+		return result.registers
+	except:
+		print("Connection Error Handled")
+		output = False
+		return output
+
+def read_register(PageNumber, RegisterOffset, Scale):
+	register = 256 * PageNumber + RegisterOffset
+	read = sync_client_read(register)
+	register = float(read[0]) * Scale
+	return register
+
+def write_register(SystemControlKeys, ComplimentControlKey):
+	wr = client.write_registers(4104, [SystemControlKeys, ComplimentControlKey])
+	return True
+
 def main():
 	try:
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(11,GPIO.OUT)
 		print("Changing the DSE to manual mode, engine will start in 5 seconds")
-		IO.write_register(MANUAL, MANUALC)
+		write_register(MANUAL, MANUALC)
 		
 		x = 4
 		while x>=1:
@@ -42,18 +61,18 @@ def main():
 
 		time.sleep(1)
 		print("Starting engine, a popup window will open to read RPM and load current")
-		IO.write_register(START,STARTC)
+		write_register(START,STARTC)
 		time.sleep(3)
 		string = ("sudo xterm -hold -e sudo python3 Monitor.py " + host + " &")
 		print("Waiting for the engine to reach minimum speed")
 		time.sleep(30)
 		print("Governor speed control ON")
 		PWM = GPIO.PWM(11, 100)
-		Current = IO.read_register(DCCurrentPageNumber, DCCurrentRegisterOffset, 0.1)
+		Current = read_register(DCCurrentPageNumber, DCCurrentRegisterOffset, 0.1)
 		X = ((40 - Current)/67) * 100
 		PWM.start(X)
 		while 1==1:
-			Current = IO.read_register(DCCurrentPageNumber, DCCurrentRegisterOffset, 0.1)
+			Current = read_register(DCCurrentPageNumber, DCCurrentRegisterOffset, 0.1)
 			X = ((40 - Current)/67) * 100
 			PWM.ChangeDutyCycle(X)
 
