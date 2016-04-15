@@ -9,14 +9,14 @@ def sync_client_read(registerNumber):
 	except:
 		print("Connection Error Handled")
 		output = False
-	return output
+		return output
 
 def read_register(PageNumber, RegisterOffset, Scale):
 	register = 256 * PageNumber + RegisterOffset
 	read = sync_client_read(register)
-	register = float(read) * Scale
-return register
+	register = float(read[0]) * Scale
+	return register
 
 def write_register(SystemControlKeys, ComplimentControlKey):
 	wr = client.write_registers(4104, [SystemControlKeys, ComplimentControlKey])
-return True	
+	return True	
