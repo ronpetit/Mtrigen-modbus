@@ -1,10 +1,11 @@
 import sys
 import time
 from pymodbus3.client.sync import ModbusTcpClient as ModbusClient
+import MainControl
 
 def sync_client_read(registerNumber):
 	try:
-		result = client.read_holding_registers(registerNumber,1)
+		result = MainControl.client.read_holding_registers(registerNumber,1)
 		return result.registers
 	except:
 		print("Connection Error Handled")
@@ -18,5 +19,5 @@ def read_register(PageNumber, RegisterOffset, Scale):
 	return register
 
 def write_register(SystemControlKeys, ComplimentControlKey):
-	wr = client.write_registers(4104, [SystemControlKeys, ComplimentControlKey])
+	wr = MainControl.client.write_registers(4104, [SystemControlKeys, ComplimentControlKey])
 	return True	
