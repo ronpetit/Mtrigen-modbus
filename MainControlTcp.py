@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 import time
 from pymodbus3.client.sync import ModbusTcpClient as ModbusClient
@@ -19,6 +20,8 @@ START = 35705
 STARTC = 29830
 RESETAL = 35734
 
+print("Waiting for the unit to start")
+time.sleep(30)
 host = sys.argv[1]
 print("Connecting to DSE with IP ", host)
 client = ModbusClient(host)
@@ -48,8 +51,7 @@ def main():
 	try:
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setup(11,GPIO.OUT)
-		print("Changing the DSE to manual mode, engine will start in 5 seconds")
-		write_register(MANUAL, MANUALC)
+		print("Preparing control, 5 seconds to start")
 		
 		x = 4
 		while x>=1:
@@ -58,10 +60,8 @@ def main():
 			x-=1
 
 		time.sleep(1)
-		print("Starting engine, a popup window will open to read RPM and load current")
-		write_register(START,STARTC)
+		print("Control ON")
 		time.sleep(3)
-		string = ("sudo xterm -hold -e sudo python3 Monitor.py " + host + " &")
 		print("Reading the actual load")
 		time.sleep(2)
 		print("Governor speed control ON")
@@ -73,15 +73,20 @@ def main():
 		PWM.start(X)
 		while 1==1:
 			AC = read_register(170,2,1)
+			HEAT = read_register(170,0,1)
 			if AC==1.0:
 				X = 100
 				PWM.ChangeDutyCycle(X)
 			else:
-				Current = read_register(DCCurrentPageNumber, DCCurrentRegisterOffset, 0.1)
-				X = ((Current)/120) * 100
-				if X>100:
-					X=100
-				PWM.ChangeDutyCycle(X)
+				if HEAT==1.0:
+					X== 100
+					PWM.ChangeDutyCycle(X)
+				else:
+					Current = read_register(DCCurrentPageNumber, DCCurrentRegisterOffset, 0.1)
+					X = ((Current)/120) * 100
+					if X>100:
+						X=100
+					PWM.ChangeDutyCycle(X)
 
 	except (KeyboardInterrupt, SystemExit):
 		PWM.stop()
